@@ -3,17 +3,22 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    service: 'Gmail', // Use your email provider here (e.g., 'Outlook', 'SendGrid')
+    // 🛑 FIX: DO NOT use 'service: "Gmail"'. Configure explicitly for reliability.
+    host: 'smtp.gmail.com',
+    port: 465, // Standard port for secure SSL connection
+    secure: true, // MUST be true for port 465
     auth: {
-        user: process.env.EMAIL_USER, // Loaded from .env
-        pass: process.env.EMAIL_PASS, // Loaded from .env (Use App Password for Gmail)
-    }
+        user: process.env.EMAIL_USER, // Your Gmail address
+        pass: process.env.EMAIL_PASS, // Your 16-character App Password
+    },
+    // Optional: Increase timeout just in case of slow network setup
+    // timeout: 20000 
 });
 
 async function sendStaffEmail(data) {
     const mailOptions = {
         from: '"DENTAVISTA Website" <no-reply@dentavista.com>',
-        to: process.env.EMAIL_USER, // Sending the notification to the clinic's email
+        to: process.env.EMAIL_USER,
         subject: `NEW PENDING APPOINTMENT REQUEST: ${data.name}`,
         html: `
             <h3>New Specialist Consultation Request Received</h3>
@@ -36,6 +41,7 @@ async function sendStaffEmail(data) {
         console.log(`[Email] Staff notified for new request from ${data.email}`);
     } catch (error) {
         console.error(`[Email] Failed to send staff notification. Check .env credentials:`, error);
+        // Throwing the error ensures the server.js catch block handles the 500 status
         throw new Error('Email notification failed.'); 
     }
 }

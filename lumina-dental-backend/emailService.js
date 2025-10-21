@@ -1,31 +1,23 @@
-// emailService.js
-const nodemailer = require('nodemailer'); 
+// emailService.js (Using SendGrid API)
+
+const sgMail = require('@sendgrid/mail'); 
 require('dotenv').config();
 
-// emailService.js (Port 587 Configuration)
+// 1. Set the API Key globally using the environment variable
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587, // Change port to 587
-    secure: false, // MUST be false for port 587
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, 
-    },
-    tls: {
-        // Required for some environments using port 587
-        rejectUnauthorized: false 
-    }
-});
+// NOTE: The 'from' address MUST be a verified sender in your SendGrid account.
+const SENDER_EMAIL = process.env.SENDER_EMAIL; // Replace with your verified clinic/sender email
+const CLINIC_RECEIVER_EMAIL = process.env.EMAIL_USER; // The clinic's email address
 
 async function sendStaffEmail(data) {
-    const mailOptions = {
-        from: '"DENTAVISTA Website" <no-reply@dentavista.com>',
-        to: process.env.EMAIL_USER,
+    const msg = {
+        to: CLINIC_RECEIVER_EMAIL, // Clinic staff receives the notification
+        from: SENDER_EMAIL, // Must be a verified sender
         subject: `NEW PENDING APPOINTMENT REQUEST: ${data.name}`,
         html: `
             <h3>New Specialist Consultation Request Received</h3>
-            <p>A new appointment request has been saved to the database and requires confirmation.</p>
+            <p>A new appointment request has been saved to the database and requires staff confirmation.</p>
             <hr>
             <ul>
                 <li><strong>Patient:</strong> ${data.name}</li>
@@ -40,11 +32,14 @@ async function sendStaffEmail(data) {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log(`[Email] Staff notified for new request from ${data.email}`);
+        await sgMail.send(msg);
+        console.log(`[Email] Staff notified successfully via SendGrid.`);
     } catch (error) {
-        console.error(`[Email] Failed to send staff notification. Check .env credentials:`, error);
-        // Throwing the error ensures the server.js catch block handles the 500 status
+        // SendGrid provides rich error logging
+        console.error(`[Email] SendGrid notification failed.`);
+        if (error.response) {
+            console.error(error.response.body); // Check for details like 'unverified sender'
+        }
         throw new Error('Email notification failed.'); 
     }
 }

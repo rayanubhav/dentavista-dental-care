@@ -17,7 +17,7 @@ app.set("trust proxy", 1);
 // --- CORS CONFIGURATION (Fixes the Cross-Origin Error) ---
 // IMPORTANT: Set 'origin' to the exact URL of your React frontend.
 const corsOptions = {
-    origin: 'http://localhost:5173', 
+    origin: ['http://localhost:5173',"https://dentavista-dental-care-mgyhdy5ml-anubhav-rays-projects.vercel.app/"], 
     methods: ['GET', 'POST'],
     credentials: true,
 };

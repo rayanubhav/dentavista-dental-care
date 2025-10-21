@@ -2,17 +2,20 @@
 const nodemailer = require('nodemailer'); 
 require('dotenv').config();
 
+// emailService.js (Port 587 Configuration)
+
 const transporter = nodemailer.createTransport({
-    // 🛑 FIX: DO NOT use 'service: "Gmail"'. Configure explicitly for reliability.
     host: 'smtp.gmail.com',
-    port: 465, // Standard port for secure SSL connection
-    secure: true, // MUST be true for port 465
+    port: 587, // Change port to 587
+    secure: false, // MUST be false for port 587
     auth: {
-        user: process.env.EMAIL_USER, // Your Gmail address
-        pass: process.env.EMAIL_PASS, // Your 16-character App Password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, 
     },
-    // Optional: Increase timeout just in case of slow network setup
-    // timeout: 20000 
+    tls: {
+        // Required for some environments using port 587
+        rejectUnauthorized: false 
+    }
 });
 
 async function sendStaffEmail(data) {

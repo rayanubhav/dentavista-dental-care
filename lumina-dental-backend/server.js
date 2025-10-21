@@ -12,6 +12,8 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.set("trust proxy", 1);
+
 // --- CORS CONFIGURATION (Fixes the Cross-Origin Error) ---
 // IMPORTANT: Set 'origin' to the exact URL of your React frontend.
 const corsOptions = {
@@ -23,6 +25,7 @@ app.use(cors(corsOptions));
 
 // --- OTHER MIDDLEWARE ---
 app.use(bodyParser.json());
+
 
 // Rate Limiting (Protects the endpoint from abuse)
 const limiter = rateLimit({

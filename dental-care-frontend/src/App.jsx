@@ -317,122 +317,176 @@ const ServicesSection = () => {
   );
 };
 
+// --- Clinic Gallery Section (NEW COMPONENT) ---
+
+const ClinicGallerySection = () => (
+  <section id="gallery" className="py-16 sm:py-24 bg-background border-b border-border">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
+          Experience Our Modern Facility
+        </h2>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          A comfortable, modern, and sterile environment built for precision care.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Replace image paths with your actual files (e.g., /clinic-reception.jpg) */}
+        <div className="overflow-hidden rounded-2xl shadow-xl">
+          <img 
+            src="/clinic-reception.jpg" 
+            alt="Clinic Reception Area" 
+            className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105" 
+          />
+        </div>
+        <div className="overflow-hidden rounded-2xl shadow-xl">
+          <img 
+            src="/clinic-operatory.jpg" 
+            alt="Advanced Operatory Room" 
+            className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105" 
+          />
+        </div>
+        <div className="overflow-hidden rounded-2xl shadow-xl">
+          <img 
+            src="/clinic-waiting.jpg" 
+            alt="Comfortable Waiting Area" 
+            className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105" 
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+);
 // --- Implant Animation Section ---
 
+// --- Implant Animation Section (UPDATED for Single Implant) ---
+
 const ImplantAnimationSection = () => {
-  return (
-    <section
-      id="implant-animation"
-      className="bg-gradient-to-br from-card to-blue-50 py-16 sm:py-24"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
-            Precision Implantology: How it Works
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            As Prosthodontics specialists, we use advanced planning (like CBCT)
-            to ensure every implant is placed with maximum precision and
-            longevity.
-          </p>
-        </div>
+  return (
+    <section
+      id="implant-animation"
+      className="bg-gradient-to-br from-card to-blue-50 py-16 sm:py-24"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
+            Single Dental Implant Placement
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            The permanent solution for a missing tooth, functioning just like a natural root.
+          </p>
+        </div>
 
-        <div className="flex justify-center">
-          <div className="relative w-full max-w-3xl">
-            <div className="relative bg-gradient-to-br from-blue-100 to-blue-50 rounded-3xl overflow-hidden shadow-2xl border-2 border-primary/20">
-              <div className="aspect-video relative">
-                {/* Background illustration */}
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-blue-50 to-orange-50">
-                  <div className="relative w-3/4 h-3/4">
-                    {/* Bone representation */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-orange-100 to-orange-200 rounded-lg opacity-70"></div>
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-3xl">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-primary/20">
+              <div className="aspect-video relative">
 
-                    {/* Augmentation area - Abstracted to use colors */}
-                    <div className="absolute top-1/4 left-1/4 w-1/3 h-1/4 bg-secondary-light/60 opacity-60 rounded-full blur-sm"></div>
+                {/* ✅ VIDEO IMPLEMENTATION: AdobeStock_1587849889.mp4 */}
+                <video 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline 
+                    className="absolute inset-0 w-full h-full object-cover bg-gray-500/20"
+                >
+                    {/* NOTE: Place your MP4 file in the public folder */}
+                    <source src="/AdobeStock_1587849889.mp4" type="video/mp4" /> 
+                    <p>Your browser does not support the video tag.</p>
+                </video>
 
-                    {/* Implant screw */}
-                    <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 w-4 h-20 bg-gradient-to-b from-gray-600 to-gray-800 rounded-full shadow-lg"></div>
+                {/* Labels layered over the video for clarity */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md pointer-events-auto">
+                    <p className="text-sm font-semibold text-foreground">1. Preparation & Placement</p>
+                  </div>
+                  <div className="absolute bottom-4 left-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md pointer-events-auto">
+                    <p className="text-sm font-semibold text-foreground">2. Abutment Connection</p>
+                  </div>
+                  <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md pointer-events-auto">
+                    <p className="text-sm font-semibold text-foreground">3. Crown Restoration</p>
+                  </div>
+                </div>
+              </div>
 
-                    {/* Crown */}
-                    <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 w-12 h-10 bg-card rounded-t-full shadow-xl border-2 border-border"></div>
-
-                    {/* Connection lines */}
-                    <svg className="absolute inset-0 w-full h-full opacity-30">
-                      <line
-                        x1="20%"
-                        y1="50%"
-                        x2="45%"
-                        y2="50%"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth="2"
-                        strokeDasharray="5,5"
-                        className="animate-pulse"
-                      />
-                      <line
-                        x1="80%"
-                        y1="50%"
-                        x2="55%"
-                        y2="50%"
-                        stroke="hsl(var(--primary))"
-                        strokeWidth="2"
-                        strokeDasharray="5,5"
-                        className="animate-pulse"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Labels */}
-                <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
-                  <p className="text-sm font-semibold text-foreground">
-                    1. Bone Augmentation
-                  </p>
-                </div>
-                <div className="absolute top-1/2 left-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
-                  <p className="text-sm font-semibold text-foreground">
-                    2. Implant Placement
-                  </p>
-                </div>
-                <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md">
-                  <p className="text-sm font-semibold text-foreground">
-                    3. Crown Restoration
-                  </p>
-                </div>
-              </div>
-
-              {/* Bottom info bar */}
-              <div className="bg-gradient-to-r from-primary to-primary-dark text-primary-foreground p-6 text-center">
-                <p className="text-lg font-bold">
-                  Complete Implant & Bone Augmentation Process
-                </p>
-                <p className="text-sm opacity-90 mt-1">
-                  CBCT-guided precision for optimal outcomes
-                </p>
-              </div>
-            </div>
-
-            {/* Feature points */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-              {[
-                "Advanced 3D Planning",
-                "Minimally Invasive",
-                "Long-term Success",
-              ].map((feature, index) => (
-                <div
-                  key={index}
-                  className="bg-card p-4 rounded-xl shadow-md text-center border border-border"
-                >
-                  <p className="font-semibold text-foreground">{feature}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+              {/* Bottom info bar */}
+              <div className="bg-gradient-to-r from-primary to-primary-dark text-primary-foreground p-6 text-center">
+                <p className="text-lg font-bold">
+                  Precision Implantology for Long-Term Function and Aesthetics
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
-  );
+    </section>
+  );
 };
 
+// --- Implant Overdenture Section (NEW COMPONENT) ---
+
+const ImplantOverdentureSection = () => {
+  return (
+    <section
+      id="overdenture-animation"
+      className="bg-background py-16 sm:py-24 border-t border-border"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
+            Implant Supported Overdentures
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Restore stability and confidence using implants to secure your removable prosthesis.
+          </p>
+        </div>
+
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-3xl">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-secondary/20">
+              <div className="aspect-video relative">
+
+                {/* ✅ VIDEO IMPLEMENTATION: AdobeStock_334819198.mp4 */}
+                <video 
+                    autoPlay 
+                    loop 
+                    muted 
+                    playsInline 
+                    className="absolute inset-0 w-full h-full object-cover bg-gray-500/20"
+                >
+                    {/* NOTE: Place your MP4 file in the public folder */}
+                    <source src="/AdobeStock_334819198.mp4" type="video/mp4" /> 
+                    <p>Your browser does not support the video tag.</p>
+                </video>
+
+                {/* Labels layered over the video for clarity */}
+                <div className="absolute inset-0 pointer-events-none flex flex-col justify-between p-4">
+                  <div>
+                    <div className="bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md pointer-events-auto inline-block">
+                      <p className="text-sm font-semibold text-foreground">1. Implant Fixture Placement</p>
+                    </div>
+                  </div>
+                  <div className="self-end">
+                    <div className="bg-card/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md pointer-events-auto inline-block">
+                      <p className="text-sm font-semibold text-foreground">2. Attachment & Denture Connection</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom info bar */}
+              <div className="bg-gradient-to-r from-secondary to-secondary-dark text-primary-foreground p-6 text-center">
+                <p className="text-lg font-bold">
+                  Enhanced Retention and Comfort for Full Arch Restoration
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 // --- Success Stories Section ---
 
 const CaseStudy = ({ title, subtitle, description, imageUrl, delay }) => (
@@ -1315,7 +1369,9 @@ const App = () => {
       <main>
         <HeroSection />
         <ServicesSection />
+        <ClinicGallerySection />
         <ImplantAnimationSection />
+        <ImplantOverdentureSection />
         <SuccessStories />
         <DentistProfileSection />
         <PricingSection />

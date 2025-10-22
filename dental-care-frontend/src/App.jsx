@@ -25,7 +25,6 @@ import {
   Linkedin,
   AlertCircle,
 } from "lucide-react";
-import { Analytics } from "@vercel/analytics/next"
 
 // --- Note: Global HSL CSS variables are assumed to be defined in your external index.css. ---
 // The component uses Tailwind classes (bg-primary, text-secondary, etc.) that draw from these HSL definitions.
@@ -81,13 +80,10 @@ const Header = ({ activeSection, isMenuOpen, setIsMenuOpen }) => {
         <NavLink href="#home" activeSection={activeSection}>
           <span className="text-2xl font-bold flex items-center gap-2 text-primary">
             <img
-              src="/logo.png"
+              src="/Full logo.png"
               alt="DENTAVISTA Logo"
               className="h-7 w-7"
             />
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              ᴅᴇɴᴛᴀᴠɪꜱᴛᴀ
-            </span>
           </span>
         </NavLink>
 

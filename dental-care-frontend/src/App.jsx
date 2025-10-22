@@ -31,7 +31,6 @@ import {
 
 // --- Toaster Component for Notifications ---
 
-
 // --- Navigation Link Component ---
 
 const NavLink = ({
@@ -78,13 +77,17 @@ const Header = ({ activeSection, isMenuOpen, setIsMenuOpen }) => {
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <NavLink href="#home" activeSection={activeSection}>
-          <span className="text-2xl font-bold flex items-center gap-2 text-primary">
+          <div className="flex items-center">
             <img
-              src="/Full logo.png"
+              src="/Full-logo1.png"
               alt="DENTAVISTA Logo"
-              className="h-7 w-7"
+              // ✅ CORRECTED CLASSES
+              className="h-8 sm:h-12 w-auto"
             />
-          </span>
+            {/* NOTE: The explicit text span is removed since the logo now contains the name.
+        If you need text as a fallback, add it here, but typically you don't.
+      */}
+          </div>
         </NavLink>
 
         {/* Desktop Navigation */}
@@ -486,28 +489,28 @@ const SuccessStories = () => {
             title="FMR: Restoring Worn Dentition"
             subtitle="Case: Severe Wear, Instability (Ajit, 66)"
             description="We restored decades of wear and instability using the Hobo's Technique to achieve a perfect, stable bite, eliminating sensitivity and restoring aesthetic confidence."
-            imageUrl="/fmr.png" 
+            imageUrl="/fmr.png"
             delay={0}
           />
           <CaseStudy
             title="Advanced Implant Surgery"
             subtitle="Case: Bone Atrophy, Missing Posterior Teeth (Priyanka, 28)"
             description="Overcame severe bone deficiency in the upper jaw with a CAS Kit for precise Indirect Sinus Lift, securing a long-lasting foundation for dental implants."
-            imageUrl="/advancedImplant.png" 
+            imageUrl="/advancedImplant.png"
             delay={0.1}
           />
           <CaseStudy
             title="Maxillofacial Guide Flange"
             subtitle="Case: Post-Mandibulectomy Function (Dattu, 68)"
             description="Precision device for patients with jaw shifting post-surgery, restoring functional chewing ability and mandibular alignment."
-            imageUrl="/maxillofacial.png" 
+            imageUrl="/maxillofacial.png"
             delay={0.2}
           />
           <CaseStudy
             title="Telescopic Dentures"
             subtitle="Case: Partially Edentulous, Max Retention (Subhadra, 57)"
             description="Innovative system using precision attachments (copings) on existing teeth for maximum denture retention and stability superior to conventional partial dentures."
-            imageUrl="/dentures.png" 
+            imageUrl="/dentures.png"
             delay={0.3}
           />
           <CaseStudy
@@ -515,7 +518,7 @@ const SuccessStories = () => {
             subtitle="Case: Peg-Shape Laterals, Aesthetics (Nilofer, 27)"
             description="Combined minor gum surgery with E-MAX crowns to transform conical teeth into aesthetically pleasing, natural-looking permanent restorations."
             // NOTE: Removed unnecessary '/dental-care-frontend/public' prefix
-            imageUrl="/pegShaped.png" 
+            imageUrl="/pegShaped.png"
             delay={0.4}
           />
           <CaseStudy
@@ -523,7 +526,7 @@ const SuccessStories = () => {
             subtitle="Case: Jaw Joint Pain, Muscle Tension (TMJ Patient)"
             description="Diagnostic and therapeutic treatment using a Centric Stabilisation Occlusal Splint to deprogram hyperactive muscles and stabilize the jaw joint for long-term pain relief."
             // NOTE: Removed unnecessary '/public' prefix
-            imageUrl="/tmj.png" 
+            imageUrl="/tmj.png"
             delay={0.5}
           />
         </div>
@@ -531,8 +534,6 @@ const SuccessStories = () => {
     </section>
   );
 };
-
-
 
 // --- Dentist Profile Section ---
 
@@ -553,7 +554,7 @@ const DentistProfileSection = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full blur-2xl opacity-30"></div>
               <img
-                src="https://placehold.co/300x300/2173CB/ffffff?text=Dr.+Satishkumar"
+                src="/DrSatish.png"
                 alt="Dr. Satishkumar Profile"
                 className="relative w-64 h-64 object-cover rounded-full shadow-2xl border-4 border-card"
               />
@@ -566,11 +567,11 @@ const DentistProfileSection = () => {
               MDS, Prosthodontist & Implantologist
             </h3>
             <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
-              Dr. Satishkumar is a dedicated{" "}
+              Dr. Satishkumar is a dedicated 
               <strong>Consultant Prosthodontist and Oral Implantologist</strong>
               , specializing in the design, construction, and fitting of
               artificial replacements for teeth and other facial structures. His
-              expertise includes complex{" "}
+              expertise includes complex 
               <strong>Full Mouth Rehabilitation (FMR)</strong> using
               philosophies like Hobo's Technique, advanced implant surgery
               (including Sinus Lifts), and Maxillofacial Prosthesis.
@@ -739,377 +740,420 @@ const PricingSection = () => {
 // --- Toaster Component (Included for Context) ---
 // NOTE: Assuming the Toaster component is defined elsewhere in your file or imported.
 const Toaster = ({ message, type, setMessageState }) => {
-    useEffect(() => {
-        if (message) {
-            const timer = setTimeout(() => {
-                setMessageState({ text: "", type: "" });
-            }, 4000);
-            return () => clearTimeout(timer);
-        }
-    }, [message, setMessageState]);
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessageState({ text: "", type: "" });
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, setMessageState]);
 
-    if (!message) return null;
+  if (!message) return null;
 
-    return (
-        <div
-            className={`fixed top-5 right-5 z-[100] p-4 rounded-xl shadow-xl text-white transition-all duration-300 max-w-sm ${
-                type === "success" ? "bg-green-500" : "bg-red-500"
-            }`}
-        >
-            <div className="flex items-start gap-3">
-                {type === "success" ? (
-                    <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                ) : (
-                    <AlertCircle className="w-5 h-5 f lex-shrink-0 mt-0.5" />
-                )}
-                <p className="text-sm font-medium">{message}</p>
-            </div>
-        </div>
-    );
+  return (
+    <div
+      className={`fixed top-5 right-5 z-[100] p-4 rounded-xl shadow-xl text-white transition-all duration-300 max-w-sm ${
+        type === "success" ? "bg-green-500" : "bg-red-500"
+      }`}
+    >
+      <div className="flex items-start gap-3">
+        {type === "success" ? (
+          <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+        ) : (
+          <AlertCircle className="w-5 h-5 f lex-shrink-0 mt-0.5" />
+        )}
+        <p className="text-sm font-medium">{message}</p>
+      </div>
+    </div>
+  );
 };
 // ----------------------------------------------------
-
 
 // --- Contact Section (CORRECTED) ---
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    reason: "",
-    message: "",
-    // ✅ FIX: Initializing new fields to prevent React warnings
-    preferredDate: "",
-    preferredTime: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState({ text: "", type: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    reason: "",
+    message: "", // ✅ FIX: Initializing new fields to prevent React warnings
+    preferredDate: "",
+    preferredTime: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState({ text: "", type: "" });
 
-  const setMessageState = useCallback((newState) => {
-    setMessage(newState);
-  }, []);
+  const setMessageState = useCallback((newState) => {
+    setMessage(newState);
+  }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage({ text: "", type: "" });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage({ text: "", type: "" }); // Basic Client-Side Validation Check (required fields)
 
-    // Basic Client-Side Validation Check (required fields)
-    const requiredFields = ['name', 'phone', 'email', 'reason', 'preferredDate', 'preferredTime'];
-    const missingField = requiredFields.find(field => !formData[field]);
+    const requiredFields = [
+      "name",
+      "phone",
+      "email",
+      "reason",
+      "preferredDate",
+      "preferredTime",
+    ];
+    const missingField = requiredFields.find((field) => !formData[field]);
 
     if (missingField) {
-        setMessage({ 
-            text: `Please fill out the required field: ${missingField.charAt(0).toUpperCase() + missingField.slice(1)}.`, 
-            type: "error" 
-        });
-        return;
+      setMessage({
+        text: `Please fill out the required field: ${
+          missingField.charAt(0).toUpperCase() + missingField.slice(1)
+        }.`,
+        type: "error",
+      });
+      return;
     }
     if (!/^\d{10,15}$/.test(formData.phone)) {
-        setMessage({ text: "Please enter a valid phone number.", type: "error" });
-        return;
+      setMessage({ text: "Please enter a valid phone number.", type: "error" });
+      return;
     }
 
-    setIsLoading(true);
+    setIsLoading(true);
 
-    try {
-      // NOTE: Using the deployed Render API URL
-      const response = await fetch(
-        "https://dentavista-api.onrender.com/api/request-appointment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+    try {
+      // NOTE: Using the deployed Render API URL
+      const response = await fetch(
+        "https://dentavista-api.onrender.com/api/request-appointment",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      const result = await response.json();
+      const result = await response.json();
 
-      if (response.ok && result.success) {
-        setMessage({
-          // ✅ Using the professional confirmation message
-          text: "Success! Your specialist consultation request has been received. Our staff will contact you shortly to confirm the availability of your preferred date/time.",
-          type: "success",
-        });
-        // ✅ FIX: Reset all form fields completely
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          reason: "",
-          message: "",
-          preferredDate: "",
-          preferredTime: "",
-        });
-      } else {
-        setMessage({
-          text:
-            result.message ||
-            "Error submitting request. Please try again or call us directly.",
-          type: "error",
-        });
-      }
-    } catch (error) {
-      setMessage({
-        text: "Network Error: Could not reach the server. Please call us directly.",
-        type: "error",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      if (response.ok && result.success) {
+        setMessage({
+          // ✅ Using the professional confirmation message
+          text: "Success! Your specialist consultation request has been received. Our staff will contact you shortly to confirm the availability of your preferred date/time.",
+          type: "success",
+        }); // ✅ FIX: Reset all form fields completely
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          reason: "",
+          message: "",
+          preferredDate: "",
+          preferredTime: "",
+        });
+      } else {
+        setMessage({
+          text:
+            result.message ||
+            "Error submitting request. Please try again or call us directly.",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      setMessage({
+        text: "Network Error: Could not reach the server. Please call us directly.",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  return (
-    <section
-      id="contact"
-      className="py-16 sm:py-24 bg-gradient-to-br from-blue-50 to-card"
-    >
-      <Toaster
-        message={message.text}
-        type={message.type}
-        setMessageState={setMessageState}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
-            Schedule Your Consultation
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Contact us to begin your journey toward functional and aesthetic
-            restoration.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Contact Form */}
-          <div className="lg:col-span-2 bg-card p-8 rounded-3xl shadow-2xl border border-border">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-semibold text-foreground mb-2"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-semibold text-foreground mb-2"
-                  >
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  />
-                </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-semibold text-foreground mb-2"
-                >
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                />
-              </div>
-              
-              {/* NEW: Preferred Date and Time Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="preferredDate"
-                    className="block text-sm font-semibold text-foreground mb-2"
-                  >
-                    Preferred Date
-                  </label>
-                  <input
-                    type="date"
-                    id="preferredDate"
-                    name="preferredDate"
-                    value={formData.preferredDate}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="preferredTime"
-                    className="block text-sm font-semibold text-foreground mb-2"
-                  >
-                    Preferred Time
-                  </label>
-                  <input
-                    type="time"
-                    id="preferredTime"
-                    name="preferredTime"
-                    value={formData.preferredTime}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="reason"
-                  className="block text-sm font-semibold text-foreground mb-2"
-                >
-                  Reason for Visit
-                </label>
-                <select
-                  id="reason"
-                  name="reason"
-                  value={formData.reason}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                >
-                  <option value="">-- Select an Option --</option>
-                  <option value="fmr">
-                    Full Mouth Rehabilitation (Worn/Missing Teeth)
-                  </option>
-                  <option value="implant">Dental Implant Consultation</option>
-                  <option value="prosthesis">
-                    Dentures/Maxillofacial Prosthesis
-                  </option>
-                  <option value="general">General Checkup / Cleaning</option>
-                  <option value="other">Other Inquiry</option>
-                </select>
-              </div>
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-semibold text-foreground mb-2"
-                >
-                  Message (Optional)
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-primary text-primary-foreground font-semibold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="animate-spin w-5 h-5" />
-                    Sending Request...
-                  </>
-                ) : (
-                  "Request Specialist Consultation"
-                )}
-              </button>
-            </form>
-          </div>
-
-          {/* Clinic Info and Google Map sections follow */}
-          <div className="bg-gradient-to-br from-primary to-primary-dark text-primary-foreground p-8 rounded-3xl shadow-2xl">
-            <h3 className="text-2xl font-bold mb-8">Clinic Details</h3>
-
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm opacity-80 mb-1">Call Us Directly</p>
-                  <p className="text-xl font-bold">(+91) 9326960595</p>
-                  <p className="text-lg font-semibold">(+91) 8898760364</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm opacity-80 mb-1">Email</p>
-                  <p className="font-semibold">satishy529@gmail.com</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm opacity-80 mb-1">Location</p>
-                  <p className="font-semibold">101,First Floor, Simran Elegance</p>
-                  <p className="font-semibold">Tandon Rd, next to Thakur Hall, above Induslnd Bank, Ramnagar, Dombivli East, Dombivli, Maharashtra 421201</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-sm opacity-80 mb-1">Hours</p>
-                  <p className="font-semibold">Mon-Sat: 10:00 AM - 9:00 PM</p>
-                  <p className="text-sm opacity-80">Sunday: 9:00 AM - 5:00 PM</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Google Map */}
-        <div className="mt-16">
-          <iframe
-            title="Clinic Location"
-            // Using the map source specific to your clinic provided previously
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.5550530440164!2d73.08662559999999!3d19.2146269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bffcb38be82d%3A0x8154e81e692f59f9!2sDr.Satish's%20DENTAVISTA%20DENTAL%20CARE%20AND%20IMPLANT%20CENTRE!5e0!3m2!1sen!2sin!4v1760806314488!5m2!1sen!2sin"
-            width="100%"
-            height="400"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="rounded-3xl shadow-2xl"
-          />
-        </div>
-      </div>
-    </section>
-  );
+  return (
+    <section
+      id="contact"
+      className="py-16 sm:py-24 bg-gradient-to-br from-blue-50 to-card"
+    >
+      <Toaster
+        message={message.text}
+        type={message.type}
+        setMessageState={setMessageState}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-5xl font-bold text-foreground mb-4">
+                        Schedule Your Consultation
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Contact us to begin your journey toward functional and
+            aesthetic restoration.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 bg-card p-8 rounded-3xl shadow-2xl border border-border">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-semibold text-foreground mb-2"
+                  >
+                                        Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-semibold text-foreground mb-2"
+                  >
+                                        Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-semibold text-foreground mb-2"
+                >
+                                    Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    htmlFor="preferredDate"
+                    className="block text-sm font-semibold text-foreground mb-2"
+                  >
+                                        Preferred Date
+                  </label>
+                  <input
+                    type="date"
+                    id="preferredDate"
+                    name="preferredDate"
+                    value={formData.preferredDate}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="preferredTime"
+                    className="block text-sm font-semibold text-foreground mb-2"
+                  >
+                                        Preferred Time
+                  </label>
+                  <input
+                    type="time"
+                    id="preferredTime"
+                    name="preferredTime"
+                    value={formData.preferredTime}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="reason"
+                  className="block text-sm font-semibold text-foreground mb-2"
+                >
+                                    Reason for Visit
+                </label>
+                <select
+                  id="reason"
+                  name="reason"
+                  value={formData.reason}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                >
+                  <option value="">-- Select an Option --</option>
+                  <option value="fmr">
+                                        Full Mouth Rehabilitation (Worn/Missing
+                    Teeth)
+                  </option>
+                  <option value="implant">Dental Implant Consultation</option>
+                  <option value="prosthesis">
+                                        Dentures/Maxillofacial Prosthesis
+                  </option>
+                  <option value="general">General Checkup / Cleaning</option>   
+                                <option value="other">Other Inquiry</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-semibold text-foreground mb-2"
+                >
+                                    Message (Optional)
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-border rounded-xl shadow-sm focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-primary text-primary-foreground font-semibold py-4 rounded-xl shadow-lg hover:bg-primary-dark transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="animate-spin w-5 h-5" />               
+                        Sending Request...
+                  </>
+                ) : (
+                  "Request Specialist Consultation"
+                )}
+                              
+              </button>
+                          
+            </form>
+                      
+          </div>
+                    {/* Clinic Info and Google Map sections follow */}          
+          <div className="bg-gradient-to-br from-primary to-primary-dark text-primary-foreground p-8 rounded-3xl shadow-2xl">
+                        
+            <h3 className="text-2xl font-bold mb-8">Clinic Details</h3>         
+              
+            <div className="space-y-6">
+                            
+              <div className="flex items-start gap-4">
+                                
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <Phone className="w-6 h-6" />                
+                </div>
+                                
+                <div>
+                                    
+                  <p className="text-sm opacity-80 mb-1">Call Us Directly</p>   
+                                
+                  <p className="text-xl font-bold">(+91) 9326960595</p>         
+                          
+                  <p className="text-lg font-semibold">(+91) 8898760364</p>     
+                            
+                </div>
+                              
+              </div>
+                            
+              <div className="flex items-start gap-4">
+                                
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <Mail className="w-6 h-6" />                
+                </div>
+                                
+                <div>
+                                    
+                  <p className="text-sm opacity-80 mb-1">Email</p>             
+                      <p className="font-semibold">satishy529@gmail.com</p>     
+                            
+                </div>
+                              
+              </div>
+                            
+              <div className="flex items-start gap-4">
+                                
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <MapPin className="w-6 h-6" />             
+                    
+                </div>
+                                
+                <div>
+                                    
+                  <p className="text-sm opacity-80 mb-1">Location</p>           
+                        
+                  <p className="font-semibold">
+                    101,First Floor, Simran Elegance
+                  </p>
+                                    
+                  <p className="font-semibold">
+                    Tandon Rd, next to Thakur Hall, above Induslnd Bank,
+                    Ramnagar, Dombivli East, Dombivli, Maharashtra 421201
+                  </p>
+                                  
+                </div>
+                              
+              </div>
+                            
+              <div className="flex items-start gap-4">
+                                
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <Clock className="w-6 h-6" />                
+                </div>
+                                
+                <div>
+                                    
+                  <p className="text-sm opacity-80 mb-1">Hours</p>             
+                      
+                  <p className="font-semibold">Mon-Sat: 10:00 AM - 9:00 PM</p> 
+                                  
+                  <p className="text-sm opacity-80">
+                    Sunday: 9:00 AM - 5:00 PM
+                  </p>
+                                  
+                </div>
+                              
+              </div>
+                          
+            </div>
+                      
+          </div>
+                  
+        </div>
+                {/* Google Map */}        
+        <div className="mt-16">
+                    
+          <iframe
+            title="Clinic Location" // Using the map source specific to your clinic provided previously
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.5550530440164!2d73.08662559999999!3d19.2146269!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7bffcb38be82d%3A0x8154e81e692f59f9!2sDr.Satish's%20DENTAVISTA%20DENTAL%20CARE%20AND%20IMPLANT%20CENTRE!5e0!3m2!1sen!2sin!4v1760806314488!5m2!1sen!2sin"
+            width="100%"
+            height="400"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="rounded-3xl shadow-2xl"
+          />
+                  
+        </div>
+              
+      </div>
+          
+    </section>
+  );
 };
 
 // NOTE: You must ensure the Toaster component is also available in the same file or imported correctly.
@@ -1195,8 +1239,13 @@ const Footer = () => {
               <div className="flex items-start gap-3 text-gray-400">
                 <Home className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
                 <div>
-                  <p className="font-semibold text-white">101,First Floor, Simran Elegance</p>
-                  <p className="text-sm">Tandon Rd, next to Thakur Hall, above Induslnd Bank, Ramnagar, Dombivli East, Dombivli, Maharashtra 421201</p>
+                  <p className="font-semibold text-white">
+                    101,First Floor, Simran Elegance
+                  </p>
+                  <p className="text-sm">
+                    Tandon Rd, next to Thakur Hall, above Induslnd Bank,
+                    Ramnagar, Dombivli East, Dombivli, Maharashtra 421201
+                  </p>
                 </div>
               </div>
             </div>

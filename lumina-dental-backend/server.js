@@ -16,7 +16,7 @@ app.set("trust proxy", 1);
 
 // --- CORS CONFIGURATION (Fixes the Cross-Origin Error) ---
 // IMPORTANT: Set 'origin' to the exact URL of your React frontend.
-app.options('*', cors(corsOptions)); // Handles preflight requests
+ // Handles preflight requests
 
 const corsOptions = {
     origin: ['http://localhost:5173',"https://dentavista-dental-care.vercel.app"], 
@@ -24,6 +24,7 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // --- OTHER MIDDLEWARE ---
 app.use(bodyParser.json());

@@ -24,7 +24,6 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 // --- OTHER MIDDLEWARE ---
 app.use(bodyParser.json());

@@ -20,7 +20,7 @@ app.options('*', cors(corsOptions)); // Handles preflight requests
 
 const corsOptions = {
     origin: ['http://localhost:5173',"https://dentavista-dental-care.vercel.app"], 
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
 };
 app.use(cors(corsOptions));

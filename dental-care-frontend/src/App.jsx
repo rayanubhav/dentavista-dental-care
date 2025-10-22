@@ -25,6 +25,7 @@ import {
   Linkedin,
   AlertCircle,
 } from "lucide-react";
+import { Analytics } from "@vercel/analytics/next"
 
 // --- Note: Global HSL CSS variables are assumed to be defined in your external index.css. ---
 // The component uses Tailwind classes (bg-primary, text-secondary, etc.) that draw from these HSL definitions.

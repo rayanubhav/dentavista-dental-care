@@ -18,7 +18,7 @@ const CLINIC_RECEIVER_EMAIL = process.env.CLINIC_RECEIVER_EMAIL;
 
 /**
  * Sends a notification email to clinic staff about a new appointment request.
- * @param {object} data - The validated appointment data.
+//  * @param {object} data - The validated appointment data.
  */
 async function sendStaffEmail(data) {
     const mailOptions = {

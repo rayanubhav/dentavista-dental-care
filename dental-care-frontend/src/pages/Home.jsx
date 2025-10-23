@@ -342,7 +342,7 @@ const ContactSection = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/request-appointment",
+        "https://dentavista-api.onrender.com/api/request-appointment",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

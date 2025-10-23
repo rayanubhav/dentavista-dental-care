@@ -1,45 +1,76 @@
-// emailService.js (Using SendGrid API)
-
-const sgMail = require('@sendgrid/mail'); 
+const nodemailer = require('nodemailer'); 
 require('dotenv').config();
 
-// 1. Set the API Key globally using the environment variable
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// --- Nodemailer Transporter Setup ---
+// This uses your SMTP credentials to send the mail
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_EMAIL_HOST,
+    port: 587, // Standard secure port for SMTP
+    secure: false, // true for 465, false for other ports (like 587)
+    auth: {
+        user: process.env.SMTP_EMAIL_USER,
+        pass: process.env.SMTP_EMAIL_PASS,
+    },
+});
 
-// NOTE: The 'from' address MUST be a verified sender in your SendGrid account.
-const SENDER_EMAIL = process.env.SENDER_EMAIL; // Replace with your verified clinic/sender email
-const CLINIC_RECEIVER_EMAIL = process.env.EMAIL_USER; // The clinic's email address
+const SENDER_EMAIL = process.env.SMTP_EMAIL_USER;
+const CLINIC_RECEIVER_EMAIL = process.env.CLINIC_RECEIVER_EMAIL;
 
+/**
+ * Sends a notification email to clinic staff about a new appointment request.
+ * @param {object} data - The validated appointment data.
+ */
 async function sendStaffEmail(data) {
-    const msg = {
+    const mailOptions = {
+        from: SENDER_EMAIL, 
         to: CLINIC_RECEIVER_EMAIL, // Clinic staff receives the notification
-        from: SENDER_EMAIL, // Must be a verified sender
-        subject: `NEW PENDING APPOINTMENT REQUEST: ${data.name}`,
+        subject: `[APPOINTMENT] NEW REQUEST: ${data.name} (${data.preferredDate})`,
         html: `
-            <h3>New Specialist Consultation Request Received</h3>
-            <p>A new appointment request has been saved to the database and requires staff confirmation.</p>
-            <hr>
-            <ul>
-                <li><strong>Patient:</strong> ${data.name}</li>
-                <li><strong>Contact:</strong> ${data.phone} (${data.email})</li>
-                <li><strong>Preferred Date:</strong> ${data.preferredDate}</li>
-                <li><strong>Preferred Time:</strong> ${data.preferredTime}</li>
-                <li><strong>Reason:</strong> ${data.reason}</li>
-                <li><strong>Message:</strong> ${data.message || 'N/A'}</li>
-            </ul>
-            <p>Please log in to the Clinic Dashboard (or MongoDB Atlas) to review and update the status.</p>
-        `
+            <div style="font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; max-width: 600px;">
+                <h3 style="color: #007bff;">New Specialist Consultation Request Received</h3>
+                <p>A new appointment request has been saved to the database and requires staff confirmation.</p>
+                <hr style="border-top: 1px solid #eee;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold; width: 40%;">Patient:</td>
+                        <td style="padding: 8px 0;">${data.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Contact Phone:</td>
+                        <td style="padding: 8px 0;">${data.phone}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Email:</td>
+                        <td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Preferred Date:</td>
+                        <td style="padding: 8px 0;">${data.preferredDate}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Preferred Time:</td>
+                        <td style="padding: 8px 0;">${data.preferredTime}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Reason for Visit:</td>
+                        <td style="padding: 8px 0;">${data.reason}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px 0; font-weight: bold;">Message:</td>
+                        <td style="padding: 8px 0;">${data.message || 'N/A'}</td>
+                    </tr>
+                </table>
+                <hr style="border-top: 1px solid #eee;">
+                <p style="font-size: 0.9em; color: #6c757d;">Please review the database immediately and contact the patient to confirm the booking time.</p>
+            </div>
+        `,
     };
 
     try {
-        await sgMail.send(msg);
-        console.log(`[Email] Staff notified successfully via SendGrid.`);
+        await transporter.sendMail(mailOptions);
+        console.log(`[Email] Staff notified successfully via Nodemailer.`);
     } catch (error) {
-        // SendGrid provides rich error logging
-        console.error(`[Email] SendGrid notification failed.`);
-        if (error.response) {
-            console.error(error.response.body); // Check for details like 'unverified sender'
-        }
+        console.error(`[Email] Nodemailer notification failed:`, error.message);
         throw new Error('Email notification failed.'); 
     }
 }

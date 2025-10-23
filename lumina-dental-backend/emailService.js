@@ -5,8 +5,8 @@ require('dotenv').config();
 // This uses your SMTP credentials to send the mail
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_EMAIL_HOST,
-    port: 587, // Standard secure port for SMTP
-    secure: false, // true for 465, false for other ports (like 587)
+    port: 465, // <-- CHANGE PORT TO 465 (SMTPS)
+    secure: true, // <-- SET TO TRUE FOR SMTPS/465
     auth: {
         user: process.env.SMTP_EMAIL_USER,
         pass: process.env.SMTP_EMAIL_PASS,

@@ -19,7 +19,7 @@ app.set("trust proxy", 1);
  // Handles preflight requests
 
 const corsOptions = {
-    origin: ['http://localhost:5173',"https://dentavista-dental-care.vercel.app","https://first-project-for-api-458415.web.app"], 
+    origin: ['http://localhost:5173',"https://dentavista-dental-care.vercel.app","https://first-project-for-api-458415.web.app","https://first-project-for-api-458415.firebaseapp.com"], 
     methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
 };

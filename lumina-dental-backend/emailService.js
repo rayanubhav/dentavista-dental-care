@@ -1,29 +1,19 @@
-const nodemailer = require('nodemailer'); 
+const { Resend } = require('resend');
 require('dotenv').config();
 
-// --- Nodemailer Transporter Setup ---
-// This uses your SMTP credentials to send the mail
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_EMAIL_HOST,
-    port: 587, 
-    secure: false, 
-    auth: {
-        user: process.env.SMTP_EMAIL_USER,
-        pass: process.env.SMTP_EMAIL_PASS,
-    },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const SENDER_EMAIL = process.env.SMTP_EMAIL_USER;
+const SENDER_EMAIL = process.env.RESEND_SENDER_EMAIL;  // e.g. "noreply@yourdomain.com" (must be verified in Resend)
 const CLINIC_RECEIVER_EMAIL = process.env.CLINIC_RECEIVER_EMAIL;
 
 /**
  * Sends a notification email to clinic staff about a new appointment request.
-//  * @param {object} data - The validated appointment data.
+ * @param {object} data - The validated appointment data.
  */
 async function sendStaffEmail(data) {
-    const mailOptions = {
-        from: SENDER_EMAIL, 
-        to: CLINIC_RECEIVER_EMAIL, // Clinic staff receives the notification
+    const emailData = {
+        from: SENDER_EMAIL,
+        to: CLINIC_RECEIVER_EMAIL,
         subject: `[APPOINTMENT] NEW REQUEST: ${data.name} (${data.preferredDate})`,
         html: `
             <div style="font-family: Arial, sans-serif; border: 1px solid #ddd; padding: 20px; max-width: 600px;">
@@ -67,11 +57,11 @@ async function sendStaffEmail(data) {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log(`[Email] Staff notified successfully via Nodemailer.`);
+        await resend.emails.send(emailData);
+        console.log(`[Email] Staff notified successfully via Resend.`);
     } catch (error) {
-        console.error(`[Email] Nodemailer notification failed:`, error.message);
-        throw new Error('Email notification failed.'); 
+        console.error(`[Email] Resend notification failed:`, error?.message || error);
+        throw new Error('Email notification failed.');
     }
 }
 

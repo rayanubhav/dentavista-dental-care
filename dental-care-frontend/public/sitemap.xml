@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <!-- Home Page / Root -->
+    <url>
+        <loc>https://first-project-for-api-458415.web.app/</loc>
+        <priority>1.0</priority>
+        <changefreq>daily</changefreq>
+    </url>
+
+    <!-- Full Services Tab -->
+    <url>
+        <loc>https://first-project-for-api-458415.web.app/services</loc>
+        <priority>0.8</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Success Stories Tab -->
+    <url>
+        <loc>https://first-project-for-api-458415.web.app/success-stories</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <!-- Case Studies Detail Page -->
+    <url>
+        <loc>https://first-project-for-api-458415.web.app/case-studies</loc>
+        <priority>0.7</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Payment / Pricing Tab -->
+    <url>
+        <loc>https://first-project-for-api-458415.web.app/payment</loc>
+        <priority>0.6</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+</urlset>

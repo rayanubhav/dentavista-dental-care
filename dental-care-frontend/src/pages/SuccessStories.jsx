@@ -204,7 +204,7 @@ const SuccessStories = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {SUCCESS_STORIES_DATA.map((caseData, index) => (
-              <AnimatedCard key={caseData.id} delay={index * 150}> 
+              <AnimatedCard key={caseData.id} delay={index*100}> 
                 <CaseStudy
                   caseData={caseData}
                   onDetailsClick={handleDetailsClick}

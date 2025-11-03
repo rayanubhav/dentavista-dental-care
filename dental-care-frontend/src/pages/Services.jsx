@@ -1,140 +1,214 @@
 "use client";
-
-import { Plug2, Diamond, ShieldAlert, Award, UserCheck, Sparkles } from "lucide-react";
-import { MASTER_SERVICES } from "@/data/servicesData";
+import { Plug2, Diamond, ShieldAlert, Award, UserCheck, Sparkles, Zap, Stethoscope, ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
-import { useRef, useEffect, useState } from "react";
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
+import { useRef, useEffect, useState, useCallback } from "react";
 
-/* ------------------- ANIMATED HEADER ------------------- */
-const AnimatedHeader = ({ children, delay = 0 }) => {
-  const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => {
-      if (ref.current) observer.unobserve(ref.current);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className="transition-all duration-700 ease-out transform"
-      style={{
-        transitionDelay: `${delay}ms`,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? "translateY(0)" : "translateY(20px)",
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-/* ------------------- SERVICE CARD ------------------- */
-const ServiceCard = ({ icon: Icon, title, description }) => (
-  <div className="keen-slider__slide group bg-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-border">
-    <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-dark rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-md">
-      <Icon className="w-8 h-8 text-primary-foreground" />
-    </div>
-    <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
-      {title}
-    </h3>
-    <p className="text-muted-foreground leading-relaxed">{description}</p>
-  </div>
-);
-
-/* ------------------- SERVICE CAROUSEL ------------------- */
-const ServiceCarousel = ({ services }) => {
-  const [sliderRef, instanceRef] = useKeenSlider(
+// ------------------- CONCEPTUAL DATA (MIMICS EXTERNAL DATA IMPORT) -------------------
+const MASTER_SERVICES = [
     {
-      loop: true,
-      mode: "free-snap",
-      renderMode: "performance",
-      slides: {
-        perView: 1,
-        spacing: 15,
-      },
-      breakpoints: {
-        "(min-width: 640px)": { slides: { perView: 2, spacing: 20 } },
-        "(min-width: 1024px)": { slides: { perView: 3, spacing: 25 } },
-        "(min-width: 1280px)": { slides: { perView: 4, spacing: 30 } },
-      },
-      dragSpeed: 0.8,
+        icon: Diamond,
+        title: "Full Mouth Rehabilitation",
+        description: "Comprehensive reconstruction for severe wear and aesthetic balance.",
+        isPrimary: true,
+        bg_color: "#E1F5FE", // Light Blue
+        text_color: "#0288D1" // Dark Blue
     },
-    [
-      (slider) => {
-        let timeout;
-        let mouseOver = false;
-        const clearNextTimeout = () => clearTimeout(timeout);
-        const nextTimeout = () => {
-          clearTimeout(timeout);
-          if (mouseOver) return;
-          timeout = setTimeout(() => slider.next(), 2200);
-        };
-        slider.on("created", () => {
-          slider.container.addEventListener("mouseover", () => {
-            mouseOver = true;
-            clearNextTimeout();
-          });
-          slider.container.addEventListener("mouseout", () => {
-            mouseOver = false;
-            nextTimeout();
-          });
-          nextTimeout();
-        });
-        slider.on("dragStarted", clearNextTimeout);
-        slider.on("animationEnded", nextTimeout);
-        slider.on("updated", nextTimeout);
-      },
-    ]
-  );
+    {
+        icon: Plug2,
+        title: "Dental Implant Surgery",
+        description: "Advanced solutions for missing teeth, including Sinus Lifts and Bone Grafting.",
+        isPrimary: true,
+        bg_color: "#E8F5E9", // Light Green
+        text_color: "#388E3C" // Dark Green
+    },
+    {
+        icon: ShieldAlert,
+        title: "Maxillofacial Prosthesis",
+        description: "Specialized devices like Obturators for rehabilitation after surgical procedures.",
+        isPrimary: true,
+        bg_color: "#FBEFE8", // Light Orange/Peach
+        text_color: "#E64A19" // Dark Orange
+    },
+    {
+        icon: Award,
+        title: "Implant Supported Dentures",
+        description: "Restore stability and retention using implants to securely fasten a removable prosthesis.",
+        isPrimary: true,
+        bg_color: "#EDE7F6", // Light Lavender
+        text_color: "#512DA8" // Dark Purple
+    },
+    {
+        icon: Sparkles,
+        title: "Aesthetic Veneers",
+        description: "Instant correction of spacing, shape, and color issues using high-quality porcelain.",
+        isPrimary: false,
+        bg_color: "#F3E5F5", // Light Pink
+        text_color: "#C2185B" // Dark Pink
+    },
+    {
+        icon: UserCheck,
+        title: "TMJ Management",
+        description: "Diagnosis and treatment for jaw pain, clicking, and muscle tension using custom splints.",
+        isPrimary: false,
+        bg_color: "#F9FBE7", // Light Yellow
+        text_color: "#AFB42B" // Dark Olive
+    },
+    {
+        icon: Zap,
+        title: "Aesthetic Gum Contouring",
+        description: "Correction of uneven gum lines (gummy smile) for a balanced and aesthetic presentation.",
+        isPrimary: false,
+        bg_color: "#E0F7FA", // Light Cyan
+        text_color: "#00BCD4" // Cyan
+    },
+    {
+        icon: Stethoscope,
+        title: "Micro-Endodontics",
+        description: "Painless Root Canal Treatment (RCT) performed with magnification for maximum precision.",
+        isPrimary: false,
+        bg_color: "#FCE4EC", // Light Pink
+        text_color: "#D81B60" // Red Pink
+    },
+];
 
-  return (
-    <div className="relative">
-      <div ref={sliderRef} className="keen-slider">
-        {services.map((service, index) => (
-          <ServiceCard
-            key={index}
-            icon={service.icon}
-            title={service.title}
-            description={service.description}
-          />
-        ))}
-      </div>
+/* ------------------- ANIMATED HEADER (Omitted for brevity) ------------------- */
+const AnimatedHeader = ({ children, delay = 0 }) => {
+ const ref = useRef(null);
+ const [isVisible, setIsVisible] = useState(false);
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={() => instanceRef.current?.prev()}
-        className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-foreground rounded-full p-2 shadow-md transition-all"
-        aria-label="Previous"
-      >
-        ‹
-      </button>
-      <button
-        onClick={() => instanceRef.current?.next()}
-        className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-foreground rounded-full p-2 shadow-md transition-all"
-        aria-label="Next"
-      >
-        ›
-      </button>
-    </div>
+ useEffect(() => {
+  const observer = new IntersectionObserver(
+   ([entry]) => {
+    if (entry.isIntersecting) {
+     setIsVisible(true);
+     observer.unobserve(entry.target);
+    }
+   },
+   { threshold: 0.1 }
   );
+  if (ref.current) observer.observe(ref.current);
+  return () => {
+   if (ref.current) observer.unobserve(ref.current);
+  };
+ }, []);
+
+ return (
+  <div
+   ref={ref}
+   className="transition-all duration-700 ease-out transform"
+   style={{
+    transitionDelay: `${delay}ms`,
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? "translateY(0)" : "translateY(20px)",
+   }}
+  >
+   {children}
+  </div>
+ );
 };
 
-/* ------------------- VIDEO SECTIONS ------------------- */
+/* ------------------- MARQUEE SERVICE CARD ------------------- */
+const MarqueeServiceCard = ({ icon: Icon, title, description, bg_color, text_color }) => {
+    return (
+        <div 
+            className="slide flex-shrink-0 w-[300px] h-full mx-3 py-4"
+        >
+            <div 
+                className={`group h-full bg-card p-6 rounded-2xl shadow-lg border border-border transition-all duration-300 hover:shadow-xl hover:ring-2`}
+                style={{ borderColor: text_color, boxShadow: `0 0 10px ${text_color}1A` }}
+            >
+                <div 
+                    className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 shadow-md`} 
+                    style={{ backgroundColor: bg_color, color: text_color }}
+                >
+                    <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                    {title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                    {description}
+                </p>
+            </div>
+        </div>
+    );
+};
+
+/* ------------------- INFINITE SERVICE MARQUEE (NEW IMPLEMENTATION) ------------------- */
+const InfiniteServiceMarquee = ({ services, animationSpeed = 40 }) => {
+    const totalCards = services.length;
+    // Duplicate the services to ensure a seamless loop with no gap
+    const loopedServices = [...services, ...services];
+    // Calculate the total width of the track (Card width * Total cards including duplicates)
+    // Card width is 300px + margin/padding (6px left/right = 312px total width per slide in track)
+    const trackWidth = 312 * totalCards; 
+
+    return (
+        <div className="relative">
+            <style>{`
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    /* FIX: Translate exactly one set of services */
+                    100% { transform: translateX(-${trackWidth}px); }
+                }
+
+                .slider {
+                    background: transparent;
+                    height: 250px; /* Fixed height for consistency */
+                    margin: auto;
+                    overflow: hidden;
+                    position: relative;
+                    width: 100%;
+                }
+                
+                /* Gradient fades for edges (matching your original CSS idea) */
+                .slider::before,
+                .slider::after {
+                    content: "";
+                    height: 100%;
+                    position: absolute;
+                    width: 100px;
+                    z-index: 2;
+                    pointer-events: none;
+                }
+                
+                .slider::after {
+                    right: 0;
+                    top: 0;
+                    background: linear-gradient(to left, var(--bg-card) 0%, rgba(255, 255, 255, 0) 100%);
+                }
+
+                .slider::before {
+                    left: 0;
+                    top: 0;
+                    background: linear-gradient(to right, var(--bg-card) 0%, rgba(255, 255, 255, 0) 100%);
+                }
+
+                .slide-track {
+                    animation: scroll ${animationSpeed}s linear infinite;
+                    display: flex;
+                    width: ${trackWidth * 2}px; /* Total track width is two full sets */
+                    height: 100%;
+                }
+            `}</style>
+            
+            <div className="slider">
+                <div className="slide-track">
+                    {/* Render the looped services */}
+                    {loopedServices.map((service, index) => (
+                        <MarqueeServiceCard
+                            key={index}
+                            {...service}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+/* ------------------- VIDEO SECTIONS (Omitted for brevity) ------------------- */
 const ImplantAnimation = () => (
   <section className="bg-gradient-to-br from-card to-blue-50 py-16 sm:py-24">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -257,55 +331,63 @@ const ClinicGallery = () => (
   </section>
 );
 
+
 /* ------------------- MAIN SERVICES COMPONENT ------------------- */
 const Services = () => {
-  const allServices = MASTER_SERVICES;
-  const primaryServices = allServices.filter((s) => s.isPrimary);
-  const detailedServices = allServices.filter((s) => s.isDetail);
+ const allServices = MASTER_SERVICES;
+ const primaryServices = allServices.slice(0, 4);
+ const detailedServices = allServices.slice(4); 
 
-  return (
-    <div className="min-h-screen">
-      <section className="py-16 sm:py-24 bg-gradient-to-br from-blue-50 via-card to-orange-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <AnimatedHeader>
-              <h1 className="text-4xl sm:text-6xl font-bold text-foreground mb-4">
-                Our Complete Specialty Treatments
-              </h1>
-            </AnimatedHeader>
-            <AnimatedHeader delay={200}>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Focused expertise in restoring function, aesthetics, and longevity to your smile.
-              </p>
-            </AnimatedHeader>
-          </div>
-
-          <h2 className="text-3xl font-bold text-foreground mb-8 border-b pb-2">
-            Primary Expertise
-          </h2>
-          <ServiceCarousel services={primaryServices} />
-
-          <h2 className="text-3xl font-bold text-foreground mb-8 border-b pb-2 mt-16">
-            Aesthetic & Adjunctive Services
-          </h2>
-          <ServiceCarousel services={detailedServices} />
-        </div>
-
-        <div className="mt-16 text-center">
-          <a
-            href="/#contact"
-            className="inline-block bg-primary text-primary-foreground font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:bg-primary-dark"
-          >
-            Book My Specialist Consultation
-          </a>
-        </div>
-      </section>
-
-      <ImplantAnimation />
-      <OverdentureAnimation />
-      <ClinicGallery />
+ return (
+  <div className="min-h-screen">
+   <section className="py-16 sm:py-24 bg-gradient-to-br from-blue-50 via-card to-orange-50">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div className="text-center mb-16">
+      <AnimatedHeader>
+       <h1 className="text-4xl sm:text-6xl font-bold text-foreground mb-4">
+        Our Complete Specialty Treatments
+       </h1>
+      </AnimatedHeader>
+      <AnimatedHeader delay={200}>
+       <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+        Focused expertise in restoring function, aesthetics, and longevity to your smile.
+       </p>
+      </AnimatedHeader>
     </div>
-  );
+
+     <h2 className="text-3xl font-bold text-foreground mb-8 border-b pb-2">
+      Primary Expertise
+     </h2>
+            {/* ✅ INFINITE MARQUEE FOR PRIMARY SERVICES */}
+     <InfiniteServiceMarquee services={primaryServices} animationSpeed={30} />
+
+
+     <h2 className="text-3xl font-bold text-foreground mb-8 border-b pb-2 mt-16">
+      Aesthetic & Adjunctive Services
+     </h2>
+            {/* ✅ INFINITE MARQUEE FOR ADJUNCTIVE SERVICES (Slightly slower) */}
+     <InfiniteServiceMarquee services={detailedServices} animationSpeed={35} />
+
+    </div>
+
+    <div className="mt-16 text-center">
+     <a
+      href="/#contact"
+      className="inline-block bg-primary text-primary-foreground font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:bg-primary-dark"
+     >
+      Book My Specialist Consultation
+     </a>
+    </div>
+   </section>
+
+   <ImplantAnimation />
+   <OverdentureAnimation />
+   <ClinicGallery />
+  </div>
+ );
 };
 
 export default Services;
+
+
+

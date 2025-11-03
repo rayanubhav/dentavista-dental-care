@@ -1,15 +1,11 @@
 {
   "hosting": {
     "public": "dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
-        "source": "/sitemap.xml",
-        "destination": "/sitemap.xml"
+        "source": "/dentavista-sitemap.xml",
+        "destination": "/dentavista-sitemap.xml"
       },
       {
         "source": "**",

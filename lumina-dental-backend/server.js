@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const Joi = require('joi');
-const cors = require('cors'); // <-- Installed and Imported
+const cors = require('cors'); 
 const { connectToDatabase, saveAppointment } = require('./database');
 const { sendStaffEmail } = require('./emailService');
 require('dotenv').config();
@@ -14,10 +14,6 @@ const PORT = process.env.PORT || 3001;
 
 app.set("trust proxy", 1);
 
-// --- CORS CONFIGURATION (Fixes the Cross-Origin Error) ---
-// IMPORTANT: Set 'origin' to the exact URL of your React frontend.
- // Handles preflight requests
-
 const corsOptions = {
     origin: ['http://localhost:5173',"https://dentavista.in","https://www.dentavista.in","https://dentavista-dental-care.vercel.app","https://first-project-for-api-458415.web.app","https://first-project-for-api-458415.firebaseapp.com"], 
     methods: ['GET', 'POST', 'OPTIONS'],
@@ -25,11 +21,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// --- OTHER MIDDLEWARE ---
 app.use(bodyParser.json());
 
-
-// Rate Limiting (Protects the endpoint from abuse)
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 5, // Limit each IP to 5 requests
@@ -101,6 +94,4 @@ async function startServer() {
         console.log(`Express server running on http://localhost:${PORT}`);
     });
 }
-
-// Execute the startup function
 startServer();

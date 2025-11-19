@@ -109,7 +109,7 @@ const HeroSection = () => {
         {/* Trust Indicators */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
           {[
-            { number: "15+", label: "Years Experience" },
+            { number: "5+", label: "Years Experience" },
             { number: "2000+", label: "Happy Patients" },
             { number: "98%", label: "Success Rate" },
             { number: "24/7", label: "Support Available" },

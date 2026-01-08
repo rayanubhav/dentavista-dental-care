@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://first-project-for-api-458415.web.app/dentavista-sitemap.xml
+Sitemap: https://www.dentavista.in/dentavista-sitemap.xml
